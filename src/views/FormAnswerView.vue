@@ -3,8 +3,8 @@ import { defineProps, watchEffect, ref } from 'vue';
 
 // input props
 const { id = '' } = defineProps({
-  id: String
-})
+  id: String,
+});
 
 // internal state
 // should hold form object
@@ -19,11 +19,10 @@ function loadForm(id) {
 watchEffect(() => {
   console.log('id', id);
   loadForm(id);
-})
-
+});
 </script>
 <template>
   <div>
-    <h2>Form Answer for {{form }}</h2>
+    <h2>Form Answer for {{ form }}</h2>
   </div>
 </template>

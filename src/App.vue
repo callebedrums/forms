@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterLink, RouterView } from 'vue-router';
+import HelloWorld from './components/HelloWorld.vue';
 </script>
 
 <template>
-
   <div class="@container h-full min-h-full flex flex-col">
-    
     <header class="p-4 shadow-sm shadow-blue-500/50">
       <h1><RouterLink to="/">Forms</RouterLink></h1>
     </header>
@@ -15,9 +13,6 @@ import HelloWorld from './components/HelloWorld.vue'
       <RouterView />
     </div>
   </div>
-
-
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
