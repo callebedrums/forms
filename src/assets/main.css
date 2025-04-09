@@ -1,9 +1,14 @@
 @import 'tailwindcss';
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+@layer base {
+  a {
+    text-decoration: none;
+    color: var(--color-sky-500);
+    padding: 3px;
+  }
+
+  a:hover {
+    color: var(--color-sky-700);
+  }
 }
+

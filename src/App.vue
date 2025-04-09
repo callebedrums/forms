@@ -8,12 +8,7 @@ import HelloWorld from './components/HelloWorld.vue'
   <div class="@container h-full min-h-full flex flex-col">
     
     <header class="p-4 shadow-sm shadow-blue-500/50">
-      <h1>Forms</h1>
-      
-        <nav>
-          <RouterLink to="/">My Forms</RouterLink>
-          <RouterLink to="/about">About</RouterLink>
-        </nav>
+      <h1><RouterLink to="/">Forms</RouterLink></h1>
     </header>
 
     <div class="grow-1 basis-0 overflow-auto p-4">
