@@ -32,13 +32,13 @@ function reset() {
 </script>
 <template>
   <div class="w-full max-w-3xl py-4">
-    <form class="bg-blue-50 shadow-md rounded p-4">
+    <form id="form-edit-form" class="bg-blue-50 shadow-md rounded p-4" @submit.prevent="save">
       <div class="mb-4">
         <label class="block font-bold py-1 text-gray-700" for="form-name">
-          Name <span class="text-red-500">*</span>
+          Name
         </label>
         <input
-          class="shadow-sm appearance-none rounded w-full py-1 px-2 text-gray-700 bg-white hover:bg-gray-50 focus:outline-hidden focus:shadow-blue-400"
+          class="shadow-sm appearance-none rounded w-full py-1 px-2 text-gray-700 bg-white hover:bg-gray-50 valid:shadow-green-400 invalid:shadow-red-400 focus:outline-hidden focus:shadow-blue-400 "
           type="text"
           name="form-name"
           id="form-name"
@@ -77,8 +77,7 @@ function reset() {
         </button>
         <button
           class="bg-gray-300 hover:bg-gray-400 font-bold text-black py-1 px-2 rounded active:outline-gray-500 active:outline-2 active:outline-offset-1 float-right"
-          type="button"
-          @click="reset"
+          type="submit"
         >
           Reset
         </button>
