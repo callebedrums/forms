@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue';
-import { useRoute, useRouter, onBeforeRouteUpdate, RouterLink } from 'vue-router';
+import { useRoute, useRouter, RouterLink } from 'vue-router';
 
 import FormEditor from '../components/FormEditor.vue';
 
@@ -25,7 +25,8 @@ function loadFormData(id: string) {
   }
 
   FormService.instance.get(id).then(f => {
-    form.value = f;
+    // handle not found
+    if (f) form.value = f;
   });
 }
 
@@ -61,7 +62,7 @@ function save(f: Form) {
     <RouterLink :to="{ query: getTabQuery('answer') }">Answers</RouterLink>
   </nav>
   <div>
-    <h2>Form Details for {{ form.name }} - #{{ form.id || 'New' }}</h2>
+    <h2>Form Details for {{ form?.name }} - #{{ form?.id || 'New' }}</h2>
     <div v-if="!tab">
       <FormEditor :form="form" @save="save"></FormEditor>
     </div>
