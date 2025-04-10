@@ -1,15 +1,14 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import { RouterLink, RouterView } from 'vue-router';
-  import type { Form } from '../types/form';
+import { ref } from 'vue';
+import { RouterLink, RouterView } from 'vue-router';
+import type { Form } from '../types/form';
 import { FormService } from '@/services/form.service';
 
-  const forms = ref<Array<Form>>([]);
-  
-  FormService.instance.getForms().then((serverForms) => {
-    forms.value = serverForms;
-  });
-  
+const forms = ref<Array<Form>>([]);
+
+FormService.instance.list().then((serverForms) => {
+  forms.value = serverForms;
+});
 
 </script>
 <template>
@@ -20,8 +19,6 @@ import { FormService } from '@/services/form.service';
       <li v-for="form in forms">
         <RouterLink :to="`./${form.id}/edit`">{{ form.name }}</RouterLink>
       </li>
-      <!-- <li><RouterLink to="./form-1/edit">Form 1</RouterLink></li>
-      <li><RouterLink to="./form-2/edit">Form 2</RouterLink></li> -->
     </ul>
   </div>
 </template>

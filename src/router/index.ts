@@ -24,6 +24,7 @@ const router = createRouter({
       path: '/:id/edit',
       name: 'form-edit',
       component: FormEditView,
+      props: route => ({ id: route.params.id, tab: route.query.tab || '' })
     },
   ],
 });

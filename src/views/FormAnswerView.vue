@@ -17,7 +17,6 @@ function loadForm(id) {
 
 // executes whenever id changes
 watchEffect(() => {
-  console.log('id', id);
   loadForm(id);
 });
 </script>

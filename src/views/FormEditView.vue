@@ -1,31 +1,36 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue';
-import { useRoute, onBeforeRouteUpdate, RouterLink } from 'vue-router';
+import { useRoute, useRouter, onBeforeRouteUpdate, RouterLink } from 'vue-router';
 
 import FormEditor from '../components/FormEditor.vue';
 
 import type { Form } from '../types/form';
+import { FormService } from '../services/form.service';
 
 const route = useRoute();
+const router = useRouter();
 
-const id = ref<string>((route.params.id as string) || '');
-const tab = ref<string>((route.query.tab as string) || '');
+// input props
+const { id = '', tab = '' } = defineProps<{
+  id: string,
+  tab?: string
+}>();
+
 const form = ref<Form>({ id: '', name: '' });
 
 function loadFormData(id: string) {
-  form.value = {
-    id,
-    name: ``,
-  };
+  if (id === 'new') {
+    form.value = { ...form.value, id: ''};
+    return;
+  }
+
+  FormService.instance.get(id).then(f => {
+    form.value = f;
+  });
 }
 
-onBeforeRouteUpdate((to) => {
-  if (to.params.id !== id.value) id.value = (route.params.id as string) || '';
-  if (to.query.tab !== tab.value) tab.value = (route.query.tab as string) || '';
-});
-
 watchEffect(() => {
-  loadFormData(id.value);
+  loadFormData(id);
 });
 
 // preserves any adicional query
@@ -35,6 +40,20 @@ function getTabQuery(tab?: string) {
   if (tab) query.tab = tab;
   return query;
 }
+
+function save(f: Form) {
+  const isNew = !f.id;
+
+  FormService.instance.save(f).then(f => {
+    if (isNew) {
+      router.push({ params: { id: f.id } });
+    } else {
+      form.value = f;
+    }
+  });
+}
+
+
 </script>
 <template>
   <nav>
@@ -42,9 +61,9 @@ function getTabQuery(tab?: string) {
     <RouterLink :to="{ query: getTabQuery('answer') }">Answers</RouterLink>
   </nav>
   <div>
-    <h2>Form Details for {{ form.id }}</h2>
+    <h2>Form Details for {{ form.name }} - #{{ form.id || 'New' }}</h2>
     <div v-if="!tab">
-      <FormEditor :form="form"></FormEditor>
+      <FormEditor :form="form" @save="save"></FormEditor>
     </div>
   </div>
 </template>

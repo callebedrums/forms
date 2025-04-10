@@ -18,17 +18,17 @@ export class FormService {
    * Public access
    *******/
 
-  async getForms(): Promise<Array<Form>> {
+  async list(): Promise<Array<Form>> {
     return forms;
   }
 
-  async getForm(id: string): Promise<Form | undefined> {
+  async get(id: string): Promise<Form | undefined> {
     return forms.find((form) => form.id === id);
   }
 
-  saveForm(form: Form): Promise<Form> {
-    if (!form.id) return this.postForm(form);
-    return this.updateForm(form);
+  async save(form: Form): Promise<Form> {
+    if (!form.id) return await this.post(form);
+    return await this.update(form);
   }
 
   /* *****
@@ -48,7 +48,7 @@ export class FormService {
    * Private access
    *******/
 
-  private async postForm(form: Form): Promise<Form> {
+  private async post(form: Form): Promise<Form> {
     form = { ...form };
     delete form.id;
 
@@ -57,7 +57,7 @@ export class FormService {
     return form;
   }
 
-  private async updateForm(form: Form): Promise<Form> {
+  private async update(form: Form): Promise<Form> {
     const index = forms.findIndex((f) => f.id === form.id);
     forms[index] = form;
     return form;
