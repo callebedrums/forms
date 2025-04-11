@@ -29,3 +29,14 @@ export interface Form {
   description?: string;
   fields?: Array<Field>;
 }
+
+export interface FieldAnswer {
+  name: string;
+  value: string | boolean | Array<string>;
+}
+
+export interface FormAnswer {
+  id?: string;
+  formId: string;
+  fieldAnswers: Array<FieldAnswer>;
+}

@@ -33,6 +33,10 @@ function updateField(field: Field, index: number) {
   fields.value = [... fields.value];
 }
 
+function deleteField(index: number) {
+  fields.value = [...fields.value.slice(0, index), ...fields.value.slice(index + 1)];
+}
+
 function save() {
   const emitedForm = JSON.parse(JSON.stringify({ ...editForm.value, fields: fields.value }));
   emit('save', emitedForm);
@@ -69,7 +73,12 @@ function reset() {
       </div>
 
       <div class="mb-4 p-4 bg-blue-50 shadow-md rounded" v-for="(field, index) in fields" :key="index + 1">
-        <FormFieldEditor :field="field" :index="index" @update:field="(newfield) => updateField(newfield, index)"></FormFieldEditor>
+        <FormFieldEditor
+          :field="field"
+          :index="index"
+          @update:field="(newfield) => updateField(newfield, index)"
+          @deleteField="deleteField(index)"
+        />
       </div>
 
       <div class="mb-4 text-right">

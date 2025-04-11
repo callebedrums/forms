@@ -1,9 +1,25 @@
-import type { Form } from '../types/form';
+import type { Form, FormAnswer } from '@/types/form';
+import { FieldType } from '@/types/form';
 
 let forms: Array<Form> = [
   {
     id: '1',
     name: 'Form 1',
+    description: 'Form 1 description',
+    fields: [
+      {
+        type: FieldType.text,
+        name: 'field_1',
+        label: 'Field 1',
+        required: true
+      },
+      {
+        type: FieldType.textarea,
+        name: 'field_2',
+        label: 'Field 2',
+        required: false
+      }
+    ]
   },
   {
     id: '2',
@@ -11,7 +27,25 @@ let forms: Array<Form> = [
   },
 ];
 
-let nextId = 3;
+let answers: Array<FormAnswer> = [
+  {
+    id: 'a1',
+    formId: '1',
+    fieldAnswers: [
+      {
+        name: 'field_1',
+        value: 'Field 1 answer 1'
+      },
+      {
+        name: 'field_2',
+        value: 'Field 2 answer 1'
+      }
+    ]
+  }
+];
+
+let nextId = forms.length+1;
+let nextAnswerId = answers.length+1;
 
 export class FormService {
   /* *****
@@ -27,6 +61,7 @@ export class FormService {
   }
 
   async save(form: Form): Promise<Form> {
+    console.log('save', form);
     if (!form.id) return await this.post(form);
     return await this.update(form);
   }
@@ -35,6 +70,15 @@ export class FormService {
     if (!form.id) return;
 
     forms = forms.filter(f => f.id !== form.id);
+  }
+
+  async getAnswers(formId: string): Promise<Array<FormAnswer>> {
+    return answers.filter(a => a.formId === formId);
+  }
+
+  async saveAnswer(answer: FormAnswer): Promise<FormAnswer> {
+    if (!answer.id) return await this.postAnswer(answer);
+    return await this.updateAnswer(answer);
   }
 
   /* *****
@@ -67,6 +111,21 @@ export class FormService {
     const index = forms.findIndex((f) => f.id === form.id);
     forms[index] = form;
     return form;
+  }
+
+  private async postAnswer(answer: FormAnswer): Promise<FormAnswer> {
+    answer = { ...answer};
+    delete answer.id;
+
+    answer.id = `a${nextAnswerId++}`;
+    answers.push(answer);
+    return answer;
+  }
+
+  private async updateAnswer(answer: FormAnswer): Promise<FormAnswer> {
+    const index = answers.findIndex((a) => a.id === answer.id);
+    answers[index] = answer;
+    return answer;
   }
 
   private static _instance: FormService | undefined = undefined;
