@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
-import type { Form } from '../types/form';
+
+import type { Form } from '@/types/form';
 import { FormService } from '@/services/form.service';
 
 const forms = ref<Array<Form>>([]);

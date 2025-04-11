@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { FieldType, type Field } from '../types/form';
-import { ref, defineProps, defineEmits, watchEffect } from 'vue';
+import { defineEmits, defineProps, ref, watchEffect } from 'vue';
+
+import type { Field } from '@/types/form';
+import { FieldType } from '@/types/form';
 
 const {field, index} = defineProps<{
   field: Field

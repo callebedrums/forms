@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import FormsListView from '../views/FormsListView.vue';
-import FormAnswerView from '../views/FormAnswerView.vue';
-import FormEditView from '../views/FormEditView.vue';
+import FormsListView from '../formManager/FormsListView.vue';
+import FormManagerView from '../formManager/FormManagerView.vue';
+import FormAnswerView from '../formAnswer/FormAnswerView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,7 +23,7 @@ const router = createRouter({
     {
       path: '/:id/edit',
       name: 'form-edit',
-      component: FormEditView,
+      component: FormManagerView,
       props: route => ({ id: route.params.id, tab: route.query.tab || '' })
     },
   ],

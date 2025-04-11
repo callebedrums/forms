@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { FieldType, type Field, type Form } from '../types/form';
-import { defineProps, defineEmits, watchEffect, ref } from 'vue';
+import { defineEmits, defineProps, ref, watchEffect } from 'vue';
+
+import type { Field, Form} from '@/types/form';
+import { FieldType } from '@/types/form';
+
 import FormFieldEditor from './FormFieldEditor.vue';
 
 const { form } = defineProps<{
@@ -12,7 +15,8 @@ const editForm = ref<Form>({
 const fields = ref<Array<Field>>([]);
 
 const emit = defineEmits<{
-  save: [form: Form]
+  save: [form: Form],
+  delete: []
 }>()
 
 watchEffect(() => {
@@ -70,27 +74,39 @@ function reset() {
 
       <div class="mb-4 text-right">
         <button
-          class="bg-green-700 hover:bg-green-900 font-bold text-white py-1 px-2 rounded active:outline-green-900 active:outline-2 active:outline-offset-1"
+          class="bg-green-700 hover:bg-green-900 font-bold text-white py-1 px-2 w-full rounded active:outline-green-900 active:outline-2 active:outline-offset-1"
           type="button"
           @click="addField"
         >
           + Add Field
         </button>
       </div>
-      <div>
-        <button
-          class="bg-blue-500 hover:bg-blue-700 font-bold text-white py-1 px-2 rounded active:outline-blue-700 active:outline-2 active:outline-offset-1"
-          type="submit"
-        >
-          Save
-        </button>
-        <button
-          class="bg-gray-300 hover:bg-gray-400 font-bold text-black py-1 px-2 rounded active:outline-gray-500 active:outline-2 active:outline-offset-1 float-right"
-          type="button"
-          @click="reset"
-        >
-          Reset
-        </button>
+      <div class="flex">
+        <div class="flex-auto">
+          <button
+            class="bg-blue-500 hover:bg-blue-700 font-bold text-white py-1 px-3 mr-2 rounded active:outline-blue-700 active:outline-2 active:outline-offset-1"
+            type="submit"
+          >
+            Save
+          </button>
+          <button
+            class="bg-gray-300 hover:bg-gray-400 font-bold text-black py-1 px-3 rounded active:outline-gray-500 active:outline-2 active:outline-offset-1"
+            type="button"
+            @click="reset"
+          >
+            Reset
+          </button>
+        </div>
+        <div class="flex-auto text-right">
+
+          <button
+            class="bg-red-600 hover:bg-red-700 font-bold text-white py-1 px-3 rounded active:outline-red-800 active:outline-2 active:outline-offset-1"
+            type="button"
+            @click="emit('delete')"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </form>
   </div>

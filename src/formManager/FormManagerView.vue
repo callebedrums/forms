@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue';
-import { useRoute, useRouter, RouterLink } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 
-import FormEditor from '../components/FormEditor.vue';
+import type { Form } from '@/types/form';
+import { FormService } from '@/services/form.service';
 
-import type { Form } from '../types/form';
-import { FormService } from '../services/form.service';
+import FormEditor from './FormEditor.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -54,6 +54,11 @@ function save(f: Form) {
   });
 }
 
+function deleteForm(f: Form) {
+  FormService.instance.deleteForm(f).then(() => {
+    router.push({ name: 'forms-list'});
+  });
+}
 
 </script>
 <template>
@@ -64,7 +69,7 @@ function save(f: Form) {
   <div>
     <h2>Form Details for {{ form?.name }} - #{{ form?.id || 'New' }}</h2>
     <div v-if="!tab">
-      <FormEditor :form="form" @save="save"></FormEditor>
+      <FormEditor :form="form" @save="save" @delete="deleteForm(form)"></FormEditor>
     </div>
   </div>
 </template>

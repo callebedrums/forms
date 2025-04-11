@@ -1,6 +1,6 @@
 import type { Form } from '../types/form';
 
-const forms: Array<Form> = [
+let forms: Array<Form> = [
   {
     id: '1',
     name: 'Form 1',
@@ -29,6 +29,12 @@ export class FormService {
   async save(form: Form): Promise<Form> {
     if (!form.id) return await this.post(form);
     return await this.update(form);
+  }
+
+  async deleteForm(form: Form): Promise<void> {
+    if (!form.id) return;
+
+    forms = forms.filter(f => f.id !== form.id);
   }
 
   /* *****
