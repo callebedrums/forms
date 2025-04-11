@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { FieldType, type Field } from '../types/form';
-import { ref, defineProps, watchEffect } from 'vue';
+import { ref, defineProps, defineEmits, watchEffect } from 'vue';
 
 const {field, index} = defineProps<{
   field: Field
   index?: string | number
 }>();
+
+const emit = defineEmits<{
+  'update:field': [field: Field]
+}>()
 
 const editField = ref<Field>({ name: '', label: '', type: FieldType.text});
 
@@ -27,23 +31,25 @@ watchEffect(() => {
 
 function changeType(type: FieldType) {
   editField.value.type = type;
+  emitUpdateField();
+}
+
+function changeLabel() {
+  const fieldName = editField.value.label.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '_');
+  editField.value.name = fieldName;
+  emitUpdateField();
+}
+
+function emitUpdateField() {
+  emit('update:field', { ... editField.value })
 }
 
 </script>
 
 <template>
   <div>
-    <input
-      class="shadow-sm appearance-none rounded w-2/3 py-1 px-2 text-gray-700 bg-white hover:bg-gray-50 valid:shadow-green-400 invalid:shadow-red-400 focus:outline-hidden focus:shadow-blue-400 "
-      type="text"
-      :name="`form-field-label${index && `-${index}` || ''}`"
-      :id="`form-field-label${index && `-${index}` || ''}`"
-      required
-      placeholder="Field Lable"
-      v-model="editField.label"
-    />
     <select
-      class="shadow-sm rounded w-1/4 float-end py-1.5 px-2 bg-white"
+      class="shadow-sm rounded w-full mb-3 md:mb-0 md:w-1/4 md:float-end py-1.5 px-2 bg-white"
       :name="`form-field-type${index && `-${index}` || ''}`"
       :id="`form-field-type${index && `-${index}` || ''}`"
       v-model="type"
@@ -53,5 +59,15 @@ function changeType(type: FieldType) {
         {{ type.label }}
       </option>
     </select>
+    <input
+      class="shadow-sm appearance-none rounded w-full md:w-2/3 py-1 px-2 text-gray-700 bg-white hover:bg-gray-50 valid:shadow-green-400 invalid:shadow-red-400 focus:outline-hidden focus:shadow-blue-400 "
+      type="text"
+      :name="`form-field-label${index && `-${index}` || ''}`"
+      :id="`form-field-label${index && `-${index}` || ''}`"
+      required
+      placeholder="Field Lable"
+      v-model.trim="editField.label"
+      @change="changeLabel"
+    />
   </div>
 </template>

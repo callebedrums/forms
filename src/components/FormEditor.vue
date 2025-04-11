@@ -20,13 +20,18 @@ watchEffect(() => {
 });
 
 function addField() {
-  console.log('Add Question');
   editForm.value.fields = editForm.value.fields || [];
   fields.value.push({ name: '', label: '', type: FieldType.text });
 }
 
+function updateField(field: Field, index: number) {
+  fields.value[index] = field;
+  fields.value = [... fields.value];
+}
+
 function save() {
-  emit('save', { ...editForm.value, fields: fields.value });
+  const emitedForm = JSON.parse(JSON.stringify({ ...editForm.value, fields: fields.value }));
+  emit('save', emitedForm);
 }
 
 function reset() {
@@ -60,7 +65,7 @@ function reset() {
       </div>
 
       <div class="mb-4 p-4 bg-blue-50 shadow-md rounded" v-for="(field, index) in fields" :key="index + 1">
-        <FormFieldEditor :field="field" :index="index"></FormFieldEditor>
+        <FormFieldEditor :field="field" :index="index" @update:field="(newfield) => updateField(newfield, index)"></FormFieldEditor>
       </div>
 
       <div class="mb-4 text-right">
