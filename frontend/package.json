@@ -1,8 +1,10 @@
 {
-  "name": "forms",
+  "name": "forms-spa",
   "version": "0.0.1",
   "private": true,
   "type": "module",
+  "author": "Callebe Gomes <callebedrums@gmail.com>",
+  "license": "ISC",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",

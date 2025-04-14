@@ -1,0 +1,30 @@
+{
+  "name": "forms-api",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "author": "Callebe Gomes <callebedrums@gmail.com>",
+  "license": "ISC",
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rimraf ./dist",
+    "compile": "tsc --build tsconfig.build.json",
+    "dev": "npm run build && npm run start",
+    "serve": "nodemon --watch src -e ts --exec ts-node ./src/index.ts",
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "nodemon": "^3.1.9",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "fastify": "^5.3.0",
+    "uuid": "^11.1.0"
+  }
+}
