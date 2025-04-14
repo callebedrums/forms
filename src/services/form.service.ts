@@ -24,6 +24,7 @@ let forms: Array<Form> = [
   {
     id: '2',
     name: 'Form 2',
+    fields: []
   },
 ];
 
@@ -31,7 +32,7 @@ let answers: Array<FormAnswer> = [
   {
     id: 'a1',
     formId: '1',
-    fieldAnswers: [
+    answers: [
       {
         name: 'field_1',
         value: 'Field 1 answer 1'
@@ -39,6 +40,20 @@ let answers: Array<FormAnswer> = [
       {
         name: 'field_2',
         value: 'Field 2 answer 1'
+      }
+    ]
+  },
+  {
+    id: 'a2',
+    formId: '1',
+    answers: [
+      {
+        name: 'field_1',
+        value: 'Field 1 answer 2'
+      },
+      {
+        name: 'field_2',
+        value: 'Field 2 answer 2'
       }
     ]
   }
@@ -77,6 +92,7 @@ export class FormService {
   }
 
   async saveAnswer(answer: FormAnswer): Promise<FormAnswer> {
+    console.log('save answer', answer);
     if (!answer.id) return await this.postAnswer(answer);
     return await this.updateAnswer(answer);
   }

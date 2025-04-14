@@ -10,7 +10,7 @@ const { form } = defineProps<{
   form: Form;
 }>();
 const editForm = ref<Form>({
-  id: '', name: ''
+  id: '', name: '', fields: []
 });
 const fields = ref<Array<Field>>([]);
 

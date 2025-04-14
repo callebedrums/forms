@@ -6,6 +6,7 @@ import type { Form } from '@/types/form';
 import { FormService } from '@/services/form.service';
 
 import FormEditor from './FormEditor.vue';
+import FormAnswers from './FormAnswers.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -16,7 +17,7 @@ const { id = '', tab = '' } = defineProps<{
   tab?: string
 }>();
 
-const form = ref<Form>({ id: '', name: '' });
+const form = ref<Form>({ id: '', name: '', fields: [] });
 
 function loadFormData(id: string) {
   if (id === 'new') {
@@ -67,9 +68,12 @@ function deleteForm(f: Form) {
     <RouterLink :to="{ query: getTabQuery('answer') }">Answers</RouterLink>
   </nav>
   <div>
-    <h2>Form Details for {{ form?.name }} - #{{ form?.id || 'New' }}</h2>
+    <h2>{{ form?.name }}</h2>
     <div v-if="!tab">
-      <FormEditor :form="form" @save="save" @delete="deleteForm(form)"></FormEditor>
+      <FormEditor :form="form" @save="save" @delete="deleteForm(form)" />
+    </div>
+    <div v-if="tab === 'answer'">
+      <FormAnswers :form="form" />
     </div>
   </div>
 </template>

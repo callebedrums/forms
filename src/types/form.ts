@@ -27,16 +27,29 @@ export interface Form {
   id?: string;
   name: string;
   description?: string;
-  fields?: Array<Field>;
+  fields: Array<Field>;
 }
 
-export interface FieldAnswer {
+export interface Answer {
   name: string;
-  value: string | boolean | Array<string>;
 }
+
+export interface TextAnswer extends Answer {
+  value: string;
+}
+
+export interface BooleanAnswer extends Answer {
+  value: boolean;
+}
+
+export interface MultipleAnswer extends Answer {
+  value: Array<string>;
+}
+
+export type FieldAnswer = TextAnswer | BooleanAnswer | MultipleAnswer;
 
 export interface FormAnswer {
   id?: string;
   formId: string;
-  fieldAnswers: Array<FieldAnswer>;
+  answers: Array<FieldAnswer>;
 }

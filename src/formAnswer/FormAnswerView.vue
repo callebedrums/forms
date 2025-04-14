@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps, watchEffect, ref } from 'vue';
 
-import type { FieldAnswer, FormAnswer } from '@/types/form';
+import type { FieldAnswer, Form, FormAnswer } from '@/types/form';
 import { FormService } from '@/services/form.service';
 
 // input props
@@ -13,19 +13,19 @@ const answers = ref<Array<FieldAnswer>>([]);
 
 // internal state
 // should hold form object
-const form = ref('');
+const form = ref<Form>({ name: '', fields: []});
 
 function reset() {
-  answers.value = form.value.fields?.map(field => ({
+  answers.value = form.value.fields.map(field => ({
     name: field.name,
     value: ''
-  }));
+  })) || [];
 }
 
 // load form data
-function loadForm(id) {
+function loadForm(id: string) {
   FormService.instance.get(id).then((f) => {
-    form.value = f;
+    form.value = f || { name: '', fields: []};
 
     reset()
   });
@@ -33,8 +33,8 @@ function loadForm(id) {
 
 function save() {
   const answer: FormAnswer = {
-    formId: form.value.id,
-    answers: answers.value
+    formId: form.value.id || '',
+    answers: JSON.parse(JSON.stringify(answers.value))
   };
 
   FormService.instance.saveAnswer(answer).then(() => {
@@ -75,7 +75,7 @@ watchEffect(() => {
             :name="form.fields[index].name"
             :id="form.fields[index].name"
             :required="form.fields[index].required"
-            v-model="answer.value"
+            v-model="(answer.value as string)"
           >
           </textarea>
         </div>
