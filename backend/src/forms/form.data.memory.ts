@@ -53,8 +53,8 @@ export class FormDataMemory implements FormData {
     return this.forms.find(f => f.id === id);
   }
 
-  async remove(form: Form): Promise<void> {
-    this.forms = this.forms.filter(f => f.id !== form.id);
+  async remove(id: string): Promise<void> {
+    this.forms = this.forms.filter(f => f.id !== id);
   }
 
   async list(): Promise<Array<Form>> {

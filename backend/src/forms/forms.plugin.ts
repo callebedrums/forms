@@ -6,8 +6,6 @@ import routes from "./forms.routes.js";
 export async function formPlugin(fastify: FastifyInstance) {
   const formData: FormData = await getFormDataInstance();
 
-  console.log(formData);
-
   fastify.register(routes, {
     prefix: '/forms',
     formOptions: { formData }

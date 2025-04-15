@@ -7,7 +7,7 @@ export interface FormData {
 
   get(id: string): Promise<Form | undefined>;
 
-  remove(form: Form): Promise<void>;
+  remove(id: string): Promise<void>;
 
   list(): Promise<Array<Form>>;
 }
