@@ -4,12 +4,14 @@ import getFormDataInstance from "./forms-data.factory.js";
 import routes from "./forms.routes.js";
 
 export async function formPlugin(fastify: FastifyInstance) {
-  const _formData: FormData = await getFormDataInstance();
-  
-  console.log(_formData);
-  fastify.decorate('formData', _formData);
+  const formData: FormData = await getFormDataInstance();
 
-  fastify.register(routes);
+  console.log(formData);
+
+  fastify.register(routes, {
+    prefix: '/forms',
+    formOptions: { formData }
+  });
 }
 
 export default formPlugin;

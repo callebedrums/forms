@@ -1,10 +1,14 @@
 import { FastifyInstance } from "fastify";
 import { FormData } from "./form.data.js";
 
-async function routes (fastify: FastifyInstance ) {
-  const formData = (fastify as any).formData as FormData;
+async function routes (fastify: FastifyInstance, options: {
+  formOptions: {
+    formData: FormData
+  }
+}) {
+  const formData = options.formOptions.formData
 
-  fastify.get('/forms', async (request, reply) => {
+  fastify.get('/', async (request, reply) => {
     return await formData.list();
   });
 }
