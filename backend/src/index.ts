@@ -1,4 +1,5 @@
 import Fastify, { FastifyInstance } from 'fastify';
+import formPlugin from './forms/forms.plugin.js';
 
 const fastify: FastifyInstance = Fastify({
   logger: true
@@ -7,6 +8,8 @@ const fastify: FastifyInstance = Fastify({
 fastify.get('/', (req, rep) => {
   rep.send({ hello: 'world'});
 });
+
+fastify.register(formPlugin)
 
 fastify.listen({
   port: 3000,
