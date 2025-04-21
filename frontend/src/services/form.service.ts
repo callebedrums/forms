@@ -67,16 +67,19 @@ export class FormService {
    * Public access
    *******/
 
+  private api = `/api/forms`;
+
   async list(): Promise<Array<Form>> {
-    return forms;
+    return await fetch(this.api).then(response => response.json());
+    // return forms;
   }
 
   async get(id: string): Promise<Form | undefined> {
-    return forms.find((form) => form.id === id);
+    return await fetch(`${this.api}/${id}`).then(response => response.json());
+    // return forms.find((form) => form.id === id);
   }
 
-  async save(form: Form): Promise<Form> {
-    console.log('save', form);
+  async save(form: Form): Promise<Form> {    
     if (!form.id) return await this.post(form);
     return await this.update(form);
   }
@@ -84,15 +87,17 @@ export class FormService {
   async deleteForm(form: Form): Promise<void> {
     if (!form.id) return;
 
-    forms = forms.filter(f => f.id !== form.id);
+    await fetch(`${this.api}/${form.id}`, { method: 'DELETE' });
+
+    // forms = forms.filter(f => f.id !== form.id);
   }
 
   async getAnswers(formId: string): Promise<Array<FormAnswer>> {
-    return answers.filter(a => a.formId === formId);
+    return await fetch(`${this.api}/${formId}/answers`).then(response => response.json());
+    // return answers.filter(a => a.formId === formId);
   }
 
   async saveAnswer(answer: FormAnswer): Promise<FormAnswer> {
-    console.log('save answer', answer);
     if (!answer.id) return await this.postAnswer(answer);
     return await this.updateAnswer(answer);
   }
@@ -118,30 +123,62 @@ export class FormService {
     form = { ...form };
     delete form.id;
 
-    form.id = `${nextId++}`;
-    forms.push(form);
-    return form;
+    return await fetch(`${this.api}`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify(form)
+    }).then(response => response.json());
+
+    // form.id = `${nextId++}`;
+    // forms.push(form);
+    // return form;
   }
 
   private async update(form: Form): Promise<Form> {
-    const index = forms.findIndex((f) => f.id === form.id);
-    forms[index] = form;
-    return form;
+    return await fetch(`${this.api}/${form.id}`, {
+      method: 'PUT',
+      headers: {
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify(form)
+    }).then(response => response.json());
+
+    // const index = forms.findIndex((f) => f.id === form.id);
+    // forms[index] = form;
+    // return form;
   }
 
   private async postAnswer(answer: FormAnswer): Promise<FormAnswer> {
     answer = { ...answer};
     delete answer.id;
 
-    answer.id = `a${nextAnswerId++}`;
-    answers.push(answer);
-    return answer;
+    return await fetch(`${this.api}/${answer.formId}/answers`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify(answer)
+    }).then(response => response.json());
+
+    // answer.id = `a${nextAnswerId++}`;
+    // answers.push(answer);
+    // return answer;
   }
 
   private async updateAnswer(answer: FormAnswer): Promise<FormAnswer> {
-    const index = answers.findIndex((a) => a.id === answer.id);
-    answers[index] = answer;
-    return answer;
+    return await fetch(`${this.api}/${answer.formId}/answers/${answer.id}`, {
+      method: 'PUT',
+      headers: {
+        "Content-Type": 'application/json'
+      },
+      body: JSON.stringify(answer)
+    }).then(response => response.json());
+
+    // const index = answers.findIndex((a) => a.id === answer.id);
+    // answers[index] = answer;
+    // return answer;
   }
 
   private static _instance: FormService | undefined = undefined;

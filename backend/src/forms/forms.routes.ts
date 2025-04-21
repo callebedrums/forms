@@ -73,6 +73,14 @@ async function routes (fastify: FastifyInstance, options: {
   });
 
   /**
+   * List all answers for a given form
+   */
+  fastify.get('/:formId/answers', async function (request, reply) {
+    const formId: string = (request.params as any).formId;
+    return await formAnswerData.list(formId);
+  });
+
+  /**
    * Add new Answer to a form
    */
   fastify.post('/:formId/answers', {
@@ -124,14 +132,6 @@ async function routes (fastify: FastifyInstance, options: {
     }
 
     return answer;
-  });
-
-  /**
-   * List all answers for a given form
-   */
-  fastify.get('/:formId/answers', async function (request, reply) {
-    const formId: string = (request.params as any).formId;
-    return await formAnswerData.list(formId);
   });
 }
 
