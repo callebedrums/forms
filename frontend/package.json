@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "test:unit": "vitest",
     "test:e2e": "playwright test",
-    "build-only": "vite build",
+    "build-only": "vite build && rm ./dist/environment.json",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",

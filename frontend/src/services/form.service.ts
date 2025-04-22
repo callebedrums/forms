@@ -1,5 +1,6 @@
 import type { Form, FormAnswer } from '@/types/form';
 import { FieldType } from '@/types/form';
+import { configuration } from './configuration';
 
 let forms: Array<Form> = [
   {
@@ -67,7 +68,11 @@ export class FormService {
    * Public access
    *******/
 
-  private api = `/api/forms`;
+  // private api = `http://localhost:3000/forms`;
+  private get api(): string {
+    return configuration.get('FormsApi');
+  };
+
 
   async list(): Promise<Array<Form>> {
     return await fetch(this.api).then(response => response.json());
@@ -183,5 +188,7 @@ export class FormService {
 
   private static _instance: FormService | undefined = undefined;
 
-  private constructor() {}
+  private constructor() {
+    console.log('constructing Service');
+  }
 }
