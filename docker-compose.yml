@@ -5,6 +5,26 @@ services:
   #     MONGO_INITDB_ROOT_USERNAME: root
   #     MONGO_INITDB_ROOT_PASSWORD: mfesR00tPass
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.1
+    labels:
+      - "traefik.http.routers.keycloak.rule=PathPrefix(`/auth`)"
+      - "traefik.http.routers.keycloak.middlewares=keycloak-stripprefix"
+      - "traefik.http.middlewares.keycloak-stripprefix.stripprefix.prefixes=/auth"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
+      KC_HOSTNAME: http://localhost:8000/auth
+      KC_HTTP_ENABLED: true
+      KC_PROXY_HEADERS: xforwarded
+    command: start-dev
+    ports:
+      - "9090:9000" 
+
+
+
   backend:
     build: ./backend
     labels:
