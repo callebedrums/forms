@@ -5,6 +5,21 @@ services:
   #     MONGO_INITDB_ROOT_USERNAME: root
   #     MONGO_INITDB_ROOT_PASSWORD: mfesR00tPass
 
+  postgress:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: formkeycloakpwd
+      POSTGRES_USER: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  
+
+  adminer:
+    image: adminer:5.2.1
+    ports:
+      - 8888:8080
+
+
   keycloak:
     image: quay.io/keycloak/keycloak:26.2.1
     labels:
