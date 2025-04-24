@@ -36,7 +36,27 @@ CTRL + D
 
 ## Running using Docker (local test)
 
-1. install dependencies and build each project
+You need Docker Desktop installed
+
+1. create folders for persistance (done just the first time during environment set-up)
+
+create in the root of the project, in the same level as the docker-compose.yml file
+
+```
+\- volumes
+|   \- pgadmin
+|   \- postgresql
+|   |   \- data
+```
+
+Make sure that the docker containers can write into the volumes.
+For a linux development environment you can use the follow command:
+
+```bash
+chmod -R 777 ./volumes
+```
+
+2. install dependencies and build each project
 
 ```bash
 # example for backend project. the same applies to the frontend
@@ -45,7 +65,7 @@ npm install
 npm run build
 ```
 
-2. run docker compose
+3. run docker compose
 
 ```bash
 docker compose up --build
@@ -53,7 +73,7 @@ docker compose up --build
 
 access application at [http://localhost:8000](http://localhost:8000)
 
-3. tear down docker environment after testing
+4. tear down docker environment after testing
 
 ```bash
 CTRL + D
