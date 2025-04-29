@@ -53,7 +53,19 @@ services:
       KC_PROXY_HEADERS: xforwarded
     command: start-dev
     ports:
-      - "9090:9000" 
+      - "9090:9000"
+  
+  mongo:
+    image: mongo:8.0.8
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: adminR00tPass
+    volumes:
+      - ./volumes/mongo:/data/db
+      - ./init/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - 27017:27017
 
   # forms backend
   backend:

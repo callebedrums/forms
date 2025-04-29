@@ -44,6 +44,7 @@ create in the root of the project, in the same level as the docker-compose.yml f
 
 ```
 \- volumes
+|   \- mongo
 |   \- pgadmin
 |   \- postgresql
 |   |   \- data
