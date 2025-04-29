@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 
 import type { Form } from '@/types/form';
-import { FormService } from '@/services/form.service';
+import { FormService } from '@/services/forms/form.service';
 
 const forms = ref<Array<Form>>([]);
 

@@ -1,3 +1,4 @@
 {
-  "FormsApi": "${FORMS_API}"
+  "FormsApi": "${FORMS_API}",
+  "FormsServiceType": "${FORMS_SERVICE_TYPE}"
 }

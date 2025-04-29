@@ -14,7 +14,7 @@ services:
       POSTGRES_USER: postgres
     volumes:
       - ./volumes/postgresql/data:/var/lib/postgresql/data
-      - ./init/keycloak-init.sql:/docker-entrypoint-initdb.d/keycloak-init.sql
+      - ./init/keycloak-init.sql:/docker-entrypoint-initdb.d/keycloak-init.sql # this sql file is executed during the first time postgres container is executed
   
   # pgadmin to manage postgres database in the development environment.
   pgadmin:
@@ -73,6 +73,7 @@ services:
     environment:
       HTTP_PORT: 8080
       FORMS_API: /api/forms
+      FORMS_SERVICE_TYPE: api
 
   # reverse proxy entry point to the docker cluster
   reverse-proxy:

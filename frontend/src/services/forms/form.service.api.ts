@@ -1,69 +1,8 @@
 import type { Form, FormAnswer } from '@/types/form';
-import { FieldType } from '@/types/form';
-import { configuration } from './configuration';
+import { configuration } from '../configuration';
+import { FormServiceInterface } from './form.service.interface';
 
-let forms: Array<Form> = [
-  {
-    id: '1',
-    name: 'Form 1',
-    description: 'Form 1 description',
-    fields: [
-      {
-        type: FieldType.text,
-        name: 'field_1',
-        label: 'Field 1',
-        required: true
-      },
-      {
-        type: FieldType.textarea,
-        name: 'field_2',
-        label: 'Field 2',
-        required: false
-      }
-    ]
-  },
-  {
-    id: '2',
-    name: 'Form 2',
-    fields: []
-  },
-];
-
-let answers: Array<FormAnswer> = [
-  {
-    id: 'a1',
-    formId: '1',
-    answers: [
-      {
-        name: 'field_1',
-        value: 'Field 1 answer 1'
-      },
-      {
-        name: 'field_2',
-        value: 'Field 2 answer 1'
-      }
-    ]
-  },
-  {
-    id: 'a2',
-    formId: '1',
-    answers: [
-      {
-        name: 'field_1',
-        value: 'Field 1 answer 2'
-      },
-      {
-        name: 'field_2',
-        value: 'Field 2 answer 2'
-      }
-    ]
-  }
-];
-
-let nextId = forms.length+1;
-let nextAnswerId = answers.length+1;
-
-export class FormService {
+export class FormServiceAPI extends FormServiceInterface {
   /* *****
    * Public access
    *******/
@@ -76,12 +15,10 @@ export class FormService {
 
   async list(): Promise<Array<Form>> {
     return await fetch(this.api).then(response => response.json());
-    // return forms;
   }
 
   async get(id: string): Promise<Form | undefined> {
     return await fetch(`${this.api}/${id}`).then(response => response.json());
-    // return forms.find((form) => form.id === id);
   }
 
   async save(form: Form): Promise<Form> {    
@@ -93,13 +30,10 @@ export class FormService {
     if (!form.id) return;
 
     await fetch(`${this.api}/${form.id}`, { method: 'DELETE' });
-
-    // forms = forms.filter(f => f.id !== form.id);
   }
 
   async getAnswers(formId: string): Promise<Array<FormAnswer>> {
     return await fetch(`${this.api}/${formId}/answers`).then(response => response.json());
-    // return answers.filter(a => a.formId === formId);
   }
 
   async saveAnswer(answer: FormAnswer): Promise<FormAnswer> {
@@ -111,12 +45,12 @@ export class FormService {
    * Static Public access
    *******/
 
-  static get instance(): FormService {
+  static get instance(): FormServiceAPI {
     return this.getInstance();
   }
 
   static getInstance() {
-    if (!this._instance) this._instance = new FormService();
+    if (!this._instance) this._instance = new FormServiceAPI();
     return this._instance;
   }
 
@@ -135,10 +69,6 @@ export class FormService {
       },
       body: JSON.stringify(form)
     }).then(response => response.json());
-
-    // form.id = `${nextId++}`;
-    // forms.push(form);
-    // return form;
   }
 
   private async update(form: Form): Promise<Form> {
@@ -149,10 +79,6 @@ export class FormService {
       },
       body: JSON.stringify(form)
     }).then(response => response.json());
-
-    // const index = forms.findIndex((f) => f.id === form.id);
-    // forms[index] = form;
-    // return form;
   }
 
   private async postAnswer(answer: FormAnswer): Promise<FormAnswer> {
@@ -166,10 +92,6 @@ export class FormService {
       },
       body: JSON.stringify(answer)
     }).then(response => response.json());
-
-    // answer.id = `a${nextAnswerId++}`;
-    // answers.push(answer);
-    // return answer;
   }
 
   private async updateAnswer(answer: FormAnswer): Promise<FormAnswer> {
@@ -180,15 +102,12 @@ export class FormService {
       },
       body: JSON.stringify(answer)
     }).then(response => response.json());
-
-    // const index = answers.findIndex((a) => a.id === answer.id);
-    // answers[index] = answer;
-    // return answer;
   }
 
-  private static _instance: FormService | undefined = undefined;
+  private static _instance: FormServiceAPI | undefined = undefined;
 
   private constructor() {
-    console.log('constructing Service');
+    super();
+    console.log('constructing Form Service API');
   }
 }

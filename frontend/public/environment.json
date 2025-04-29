@@ -1,3 +1,4 @@
 {
-  "FormsApi": "/api/forms"
+  "FormsApi": "/api/forms",
+  "FormsServiceType": "api"
 }

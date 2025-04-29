@@ -3,7 +3,7 @@ import { ref, watchEffect } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 
 import type { Form } from '@/types/form';
-import { FormService } from '@/services/form.service';
+import { FormService } from '@/services/forms/form.service';
 
 import FormEditor from './FormEditor.vue';
 import FormAnswers from './FormAnswers.vue';

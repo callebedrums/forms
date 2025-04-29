@@ -3,7 +3,7 @@
 import { defineEmits, defineProps, ref, watchEffect } from 'vue';
 
 import type { Form, FormAnswer} from '@/types/form';
-import { FormService } from '../services/form.service';
+import { FormService } from '../services/forms/form.service';
 
 const { form } = defineProps<{
   form: Form;

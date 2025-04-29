@@ -2,7 +2,7 @@
 import { defineProps, watchEffect, ref } from 'vue';
 
 import type { FieldAnswer, Form, FormAnswer } from '@/types/form';
-import { FormService } from '@/services/form.service';
+import { FormService } from '@/services/forms/form.service';
 
 // input props
 const { id = '' } = defineProps<{
