@@ -1,0 +1,18 @@
+<div>
+  <h2>My Forms</h2>
+  <ul>
+    <li><a routerLink="./new/edit">+ New Form</a></li>
+    @for (form of forms; track form.id) {
+      <li class="mt-3">
+        <a routerLink="./{{ form.id }}/edit">{{ form.name }}</a>
+        <a routerLink="./{{ form.id }}" class="bg-blue-500 hover:bg-blue-700 font-bold text-white py-0.5 px-1 ml-2 rounded active:outline-blue-700 active:outline-1 active:outline-offset-1">Answer</a>
+        <button
+          class="bg-red-600 hover:bg-red-700 font-bold text-white px-1 ml-2 rounded active:outline-red-800 active:outline-1 active:outline-offset-1"
+          (click)="deleteForm(form)"
+        >
+          Delete
+        </button>
+      </li>
+    }
+  </ul>
+</div>
